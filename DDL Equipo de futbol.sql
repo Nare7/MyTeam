@@ -1,0 +1,103 @@
+CREATE SCHEMA EQUIPOS;
+USE EQUIPOS;
+
+CREATE TABLE jugadores (
+	id INT NOT NULL AUTO_INCREMENT,
+	name VARCHAR(40) NOT NULL,
+	last_name VARCHAR(50) NOT NULL,
+	fecha_nacimiento DATETIME NOT NULL,
+	PRIMARY KEY (id) );
+	
+
+CREATE TABLE jugador_has_equipo (
+	id INT NOT NULL AUTO_INCREMENT,
+	jugador_id INT NOT NULL,
+	equipo_id INT NOT NULL,
+	PRIMARY KEY(id),
+		FOREIGN KEY (jugador_id)
+		REFERENCES EQUIPOS.jugadores (id)
+			ON DELETE NO ACTION
+			ON UPDATE CASCADE,
+		FOREIGN KEY (equipo_id)
+		REFERENCES EQUIPOS.equipo (id)
+		ON DELETE NO ACTION
+		ON UPDATE CASCADE);
+
+
+CREATE TABLE equipo (
+	id INT NOT NULL AUTO_INCREMENT,
+	name VARCHAR(40) NOT NULL,
+	feche_creacion  DATETIME NOT NULL,
+	PRIMARY KEY (id) );
+
+CREATE TABLE equipo_has_torneo (
+	id INT NOT NULL AUTO_INCREMENT,
+	torneo_id INT NOT NULL,
+	equipo_id INT NOT NULL,
+	PRIMARY KEY(id),
+		FOREIGN KEY (torneo_id)
+		REFERENCES EQUIPOS.torneo (id)
+			ON DELETE NO ACTION
+			ON UPDATE CASCADE,
+		FOREIGN KEY (equipo_id)
+		REFERENCES EQUIPOS.equipo (id)
+		ON DELETE NO ACTION
+		ON UPDATE CASCADE);
+
+
+CREATE TABLE torneo (
+	id INT NOT NULL AUTO_INCREMENT,
+	name VARCHAR(40) NOT NULL,
+	feche_inicio  DATETIME NOT NULL,
+	feche_fin  DATETIME NOT NULL,
+	PRIMARY KEY (id) );
+
+
+CREATE TABLE torneo_has_partidos (
+	id INT NOT NULL AUTO_INCREMENT,
+	torneo_id INT NOT NULL,
+	partido_id INT NOT NULL,
+	PRIMARY KEY(id),
+		FOREIGN KEY (torneo_id)
+		REFERENCES EQUIPOS.torneo (id)
+			ON DELETE NO ACTION
+			ON UPDATE CASCADE,
+		FOREIGN KEY (partido_id)
+		REFERENCES EQUIPOS.partidos (id)
+		ON DELETE NO ACTION
+		ON UPDATE CASCADE);
+
+
+CREATE TABLE partidos (
+	id INT NOT NULL AUTO_INCREMENT,
+	feche_partido  DATE NOT NULL,
+	hora_partido  TIME NOT NULL,
+	PRIMARY KEY (id) );
+
+CREATE TABLE partidos_has_arbitros (
+	id INT NOT NULL AUTO_INCREMENT,
+	arbitro_id INT NOT NULL,
+	partido_id INT NOT NULL,
+	PRIMARY KEY(id),
+		FOREIGN KEY (arbitro_id)
+		REFERENCES EQUIPOS.arbitros (id)
+			ON DELETE NO ACTION
+			ON UPDATE CASCADE,
+		FOREIGN KEY (partido_id)
+		REFERENCES EQUIPOS.partidos (id)
+		ON DELETE NO ACTION
+		ON UPDATE CASCADE);
+
+
+CREATE TABLE arbitros (
+	id INT NOT NULL AUTO_INCREMENT,
+	name VARCHAR(40) NOT NULL,
+	apellido varchar(49) NOT NULL,
+	contacto int(10),
+	email VARCHAR(70) NOT NULL,
+	colocacion VARCHAR(40),
+	PRIMARY KEY (id) );
+	
+
+
+SHOW TABLES FROM EQUIPOS;
